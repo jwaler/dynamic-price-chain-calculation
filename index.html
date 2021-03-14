@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, 
+         user-scalable=0'>
+    <title>Shipping Simulator</title>
+    <link rel="shortcut icon" type="image/jpg" href="images/app.ico" />
+    <!-- bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.2/css/all.css">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <div class="container-fluid head-container">
+        <div class="row menu">
+            <div class="col-4 logo"><img class="imglogo" src="images/TDP.png" alt=""></div>
+            <div class="col-8 title"><img class="imgtext" src="images/textmenu.png" alt=""></div>
+        </div>
+    </div>
+    <div class="container-fluid main-container">
+        <div class="row settings">
+            <div class=col-4><img src="images/container-2.png" alt=""></div>
+            <div class=col-8><select class="form-control" id="select-settings">
+                <option value="1" selected>Choose a simulation (optional)...</option>
+                <option value="2">Bakery accounts</option>
+                <option value="3">Distributor</option>
+                <option value="4">Direct Key Accounts</option>
+            </select></div>
+        </div>
+        <div class="row settings">
+            <div class="col-4">
+                
+            </div>
+            <div class="col-4">
+                <select class="form-control select-limit" id="select-incoterm">
+                <option value="" selected>Incoterm...</option>
+                </select>
+            </div>
+            <div class="col-4">
+                <select class="form-control select-limit" id="select-container">
+                    <option value="" selected>Reefer...</option>
+                </select>
+            </div>
+            <div class="col-4">
+               <button id="button-modal" data-bs-toggle="modal" data-bs-target="#exampleModal" hidden>test</button>
+            </div>
+        </div>
+        <div class="row settings">
+                <!-- modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Adding New item</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Please note that adding a new item will be temporary only.</p>
+                            <p>While you are staying on the page (without refreshing), the item will show up in the dropdown list.
+                            </p><p>If you refresh or leave the page, your input will be removed.</p>
+                            <form>
+                                <!-- line 1 -->
+                                <div class="row">
+                                    <div class="col-6">
+                                        <input type="text" class="form-control form-control-sm" id="recipient-name" placeholder="Enter item name...">
+                                    </div>
+                                    <div class="col-6">
+                                        <select class="form-control form-control-sm select-limit" id="select-range">
+                                            <option value="" selected>Select range...</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <br>
+                                <!-- line 2 -->
+                                <div class="row">
+                                    <div class="col-4">
+                                        <input type="text" class="form-control form-control-sm" id="recipient-pccase" placeholder="pcs per ctn...">
+                                    </div>
+                                    <div class="col-4">
+                                        <input type="text" class="form-control form-control-sm" id="recipient-ctnpal" placeholder="ctn per pallet...">
+                                    </div>
+                                    <div class="col-4">
+                                        
+                                    </div>
+                                </div>
+                                <br>
+                                <!-- line 3 -->
+                                <div class="row">
+                                    <div class="col-4">
+                                        <div class="input-group">
+                                            <i class="fas fa-euro-sign"></i>
+                                            <input class="form-control form-control-sm recipient-price" id="recipient-price" type="input" value=00.00>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" id="close-modal" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-success" id="user-input">Add to the list</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end modal -->
+            <div class="col-4 mt-3">
+                <select class="form-control select-limit" id="select-items">
+                <option value="" selected>Item...</option>
+                <option value="add-item">Add item...</option>
+                </select>
+            </div>
+            
+            <div class="col-4 mt-3">
+                <select class="form-control select-limit" id="select-country">
+                <option value="" selected>Country...</option>
+                </select>
+            </div>
+            <div class="col-4">
+                <span class="badge rounded-pill bg-warning text-dark relabeling">Relabeling</span>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="labeling"><br>
+                </div>
+            </div>
+        </div>
+        <!-- SLIDER -->
+        <div class="margin-section">
+            <img src="images/margins.png" alt="">
+            <div class="row">
+                <div class="col-8">
+                    <label for="slider">TDP</label><br>
+                    <input id="tdp-slider" class="styled-slider slider-progress tdp-slider-input" type="range" value=30.00 step="0.01">
+                </div>
+                <div class="col-4">
+                    <div class="input-group">
+                        <i class="fas fa-percentage"></i>
+                        <input class="form-control margin-input" id="tdp-slider-input" type="input" for="slider" value=30.00
+                        step="0.01">
+                    </div>
+                </div>
+            </div>
+            <div class="row ws-margin">
+                <div class="col-8">
+                    <label for="slider">Agent</label><br>
+                    <input id="middle-slider" class="styled-slider slider-progress middle-slider-input" name="slider" type="range" value=00.00 step="0.01">
+                </div>
+                <div class="col-4">
+                    <div class="input-group">
+                        <i class="fas fa-percentage"></i>
+                    <input class="form-control margin-input" id="middle-slider-input" type="input" for="slider" value=00.00 step="0.01">
+                    </div>
+                </div>
+            </div>
+            <div class="row rt-margin">
+                <div class="col-8">
+                    <label for="slider">Retailer</label><br>
+                    <input id="retail-slider" class="styled-slider slider-progress retail-slider-input" name="slider" type="range" value=00.00 step="0.01">
+                </div>
+                <div class="col-4">
+                    <div class="input-group">
+                        <i class="fas fa-percentage"></i>
+                    <input class="form-control margin-input" id="retail-slider-input" type="input" for="slider" value=00.00 step="0.01">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid foot-container">
+        <img class="img" src="images/output.png" alt="">
+        <div class="output-header" id="output-header"></div>
+        <div class="row results" id="results">
+            
+            
+        </div>
+        
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"
+        integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+        crossorigin="anonymous"></script>
+
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+        integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+        
+    <script src="apps/app.js"></script>
+</body>
+</html>
