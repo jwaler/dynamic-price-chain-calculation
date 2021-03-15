@@ -32,7 +32,11 @@ let d_priceCtnCif;
 let d_costLogG;
 let d_pricePcCif;
 let d_PVinter;
+let d_PVinter_ctn;
+let d_SPinter_pc;
+let d_SPinter_ctn;
 let display_srp;
+let display_srp_ctn;
 let showCT;
 let showVAT;
 let product_name;
@@ -646,7 +650,6 @@ function Calculation() {
   let Reefer = FetchReeferValue(ReeferPicked);
   const tdpMarginInt = tdpMargin;
   const MidMarginInt = MidMargin;
-  console.log(tdpMarginInt);
   const RetailMarginInt = RetailMargin;
   let container = Reefer;
 
@@ -675,7 +678,6 @@ function Calculation() {
           // -------------
           //exw
           priceCtnExw = roundUp(pc / (1 - tdpMarginInt / 100), 3);
-          console.log(priceCtnExw);
           d_priceCtnExw = priceCtnExw + bycase;
           pricePcExw = roundUp(priceCtnExw / pccase, 3);
           d_pricePcExw = pricePcExw + bypc;
@@ -723,15 +725,25 @@ function Calculation() {
           applyCustoms = roundUp(priceCtnCif + priceCtnCif * custom_tax, 2);
           applyVAT = roundUp(applyCustoms + applyCustoms * vat, 2);
           PVinter = roundUp((applyVAT * currency) / pccase, 3);
-          console.log(roundUp(PVinter / (1 - MidMarginInt / 100), 3));
+          SPinter = roundUp(PVinter / (1 - MidMarginInt / 100), 3);
           logCostPerc = roundUp(
             transportcostpallet / (pccase * palletization * PVinter),
             2
           );
           if (countryPicked === "South Korea") {
             d_PVinter = PVinter * 1000 + " " + symbol + bypc;
+            d_PVinter_ctn =
+              roundUp(PVinter * pccase * 1000, 2) + " " + symbol + bycase;
+            d_SPinter_ctn =
+              roundUp(SPinter * pccase * 1000, 2) + " " + symbol + bycase;
+            d_SPinter_pc = SPinter * 1000 + " " + symbol + bypc;
           } else {
             d_PVinter = PVinter + " " + symbol + bypc;
+            d_PVinter_ctn =
+              roundUp(PVinter * pccase, 2) + " " + symbol + bycase;
+            d_SPinter_ctn =
+              roundUp(SPinter * pccase, 2) + " " + symbol + bycase;
+            d_SPinter_pc = SPinter + " " + symbol + bypc;
           }
 
           RtLogCost = roundUp(1 - 1 * (RetailMarginInt / 100), 3);
@@ -744,8 +756,12 @@ function Calculation() {
           } else {
             if (countryPicked === "South Korea") {
               display_srp = 1000 * srp + " " + symbol + bypc;
+              display_srp_ctn =
+                roundUp(1000 * (srp * pccase), 2) + " " + symbol + bycase;
             } else {
               display_srp = srp + " " + symbol + bypc;
+              display_srp_ctn =
+                roundUp(srp * pccase, 2) + " " + symbol + bycase;
             }
           }
 
@@ -781,7 +797,13 @@ function Calculation() {
     { name: "Customs Tax", output: showCT, type: "CIF" },
     { name: "----", output: "---------", type: "CIF" },
     { name: "Recommended SRP", output: display_srp, type: "DDP" },
-    { name: "Client price", output: d_PVinter, type: "DDP" },
+    { name: "Recommended SRP", output: display_srp_ctn, type: "DDP" },
+    { name: "----", output: "---------", type: "DDP" },
+    { name: "Agent sells", output: d_SPinter_pc, type: "DDP" },
+    { name: "Agent sells", output: d_SPinter_ctn, type: "DDP" },
+    { name: "----", output: "---------", type: "DDP" },
+    { name: "Agent buys", output: d_PVinter, type: "DDP" },
+    { name: "Agent buys", output: d_PVinter_ctn, type: "DDP" },
     { name: "----", output: "---------", type: "DDP" },
   ];
   // alert system
