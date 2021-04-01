@@ -222,6 +222,7 @@ tbody {
     margin: 0 auto;
   }
   .container {
+    margin-top: 40px;
     max-width: 1200px !important;
   }
   .left-col {
