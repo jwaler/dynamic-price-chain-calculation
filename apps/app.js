@@ -144,13 +144,13 @@ let ph = {
 };
 let my = {
   countryname: "Malaysia",
-  fob: 960,
-  cif: 3740,
+  fob: 975,
+  cif: 2982.63,
   ctax: 0.2,
   vat: 0.05,
-  currency: 4.91,
+  currency: 4.8,
   symbol: "MYR",
-  transportcostpallet: 1473,
+  transportcostpallet: 1000,
 };
 let mdd = {
   countryname: "MDD",
@@ -165,87 +165,151 @@ let mdd = {
 
 let twentyft = {
   type: "20 FEET",
-  value: "9",
+  value: 9,
 };
 
 let fourtyft = {
   type: "40 FEET",
-  value: "20",
+  value: 20,
 };
 
 const format = ["Food Service", "Cash & Carry", "Retail"]; // 0, 1 ,2
 const incoterm = ["EXW", "FOB", "CFR", "CIF", "DDP"];
 const country = [tw, hk, kr, jp, sg, au, nz, cn, ph, my, mdd];
 let items = [
-  (p1 = {
+  {
     name: "Vegan Chocolate Cake",
     code: 5281,
-    format: format[0],
+    format: "Food Service",
     pc: 20.56,
     pccase: 36,
     palletization: 250,
-  }),
-  (p2 = {
+  },
+  {
     name: "Chocolate fondant",
     code: 419,
-    format: format[0],
+    format: "Food Service",
     pc: 5.75,
     pccase: 20,
     palletization: 250,
-  }),
-  (p3 = {
+  },
+  {
     name: "Macarons",
     code: 4723,
-    format: format[0],
+    format: "Food Service",
     pc: 11.88,
     pccase: 72,
     palletization: 250,
-  }),
-  (p4 = {
+  },
+  {
     name: "Macarons",
     code: 5241,
-    format: format[1],
+    format: "Cash & Carry",
     pc: 6.12,
     pccase: 36,
     palletization: 600,
-  }),
-  (p5 = {
+  },
+  {
     name: "Chocolate fondant",
     code: 4241,
-    format: format[1],
+    format: "Cash & Carry",
     pc: 3.47,
     pccase: 10,
     palletization: 600,
-  }),
-  (p6 = {
+  },
+  {
     name: "Chocolate fondant",
     code: 4720,
-    format: format[2],
+    format: "Retail",
     pc: 0.727,
     pccase: 2,
     palletization: 2244,
-  }),
-  (p7 = {
+  },
+  {
     name: "Cheesecake",
     code: 4721,
-    format: format[2],
+    format: "Retail",
     pc: 1.167,
     pccase: 2,
     palletization: 2244,
-  }),
-  (p8 = {
+  },
+  {
     name: "Macarons",
     code: 4824,
-    format: format[2],
+    format: "Retail",
     pc: 2.111,
     pccase: 12,
     palletization: 1584,
-  }),
+  },
+  {
+    name: "Mini Moelleux",
+    code: 961,
+    format: "Retail",
+    pc: 1.775,
+    pccase: 8,
+    palletization: 936,
+  },
+  {
+    name: "Gratin",
+    code: 960,
+    format: "Retail",
+    pc: 1.425,
+    pccase: 4,
+    palletization: 936,
+  },
+  {
+    name: "Cappucino",
+    code: 434,
+    format: "Cash & Carry",
+    pc: 6.698,
+    pccase: 8,
+    palletization: 384,
+  },
+  {
+    name: "Lingot chocolat",
+    code: 335,
+    format: "Food Service",
+    pc: 10.874,
+    pccase: 16,
+    palletization: 250,
+  },
+  {
+    name: "Gianduja shortbread",
+    code: 294,
+    format: "Food Service",
+    pc: 10.22,
+    pccase: 16,
+    palletization: 250,
+  },
+  {
+    name: "Caramel delight",
+    code: 315,
+    format: "Food Service",
+    pc: 10.972,
+    pccase: 16,
+    palletization: 250,
+  },
+  {
+    name: "Cheesecake premium",
+    code: 279,
+    format: "Food Service",
+    pc: 12.148,
+    pccase: 20,
+    palletization: 250,
+  },
+  {
+    name: "Lemon Meringue",
+    code: 283,
+    format: "Food Service",
+    pc: 10.016,
+    pccase: 16,
+    palletization: 250,
+  },
 ];
 const reefer = [twentyft, fourtyft];
 const insurance = 0.005;
 const area = document.querySelector("#results");
-const itemInformation = document.querySelector("#output-header");
+const itemInformation = document.querySelector("#output-header").children;
 
 function FetchCountry() {
   for (var i = 0; i < country.length; i++) {
@@ -311,7 +375,14 @@ function FetchRange() {
     document.querySelector("#select-range").add(option, null);
   }
 }
+function ResetSpan() {
+  document.querySelector("#output-country").classList.add("hide");
+  document.querySelector("#output-item").classList.add("hide");
+  document.querySelector("#output-cat").classList.add("hide");
+  document.querySelector("#output-code").classList.add("hide");
+}
 
+ResetSpan();
 FetchReefer();
 FetchCountry();
 FetchIncoterm();
@@ -460,6 +531,7 @@ function ownSimulation() {
   }
 }
 
+//clean modal after closing or submit
 function cleanModal(selectorId) {
   document
     .querySelector("#user-input")
@@ -472,6 +544,7 @@ function cleanModal(selectorId) {
   document.querySelector(selectorId[4]).value = "";
 }
 
+// settings options
 function Simulate(simulation) {
   let option_num;
 
@@ -587,12 +660,16 @@ function alertMsg(
   } else {
     document.querySelector("#select-country").classList.remove("is-invalid");
     document.querySelector("#select-country").classList.add("is-valid");
+    document.querySelector("#output-country").classList.remove("hide");
   }
   if (isNaN(itemPicked) === true) {
     allow_display_message.push(["missing item", "#select-items"]);
   } else {
     document.querySelector("#select-items").classList.remove("is-invalid");
     document.querySelector("#select-items").classList.add("is-valid");
+    document.querySelector("#output-item").classList.remove("hide");
+    document.querySelector("#output-cat").classList.remove("hide");
+    document.querySelector("#output-code").classList.remove("hide");
   }
   if (IncotermPicked === "") {
     allow_display_message.push(["missing incoterm", "#select-incoterm"]);
@@ -643,7 +720,7 @@ function Calculation() {
   let MidMargin = document.querySelector("#middle-slider-input").value;
   let RetailMargin = document.querySelector("#retail-slider-input").value;
   if (document.querySelector("#labeling").checked) {
-    labeling = 0.3;
+    labeling = 0.23;
   } else {
     labeling = 0;
   }
@@ -660,7 +737,7 @@ function Calculation() {
       let tproduct_name = items[i].name;
       let tformat = items[i].format;
       let tcode = items[i].code;
-      let pc = items[i].pc + labeling;
+      let pc = items[i].pc;
       let pccase = items[i].pccase;
       let palletization = items[i].palletization;
       for (var j = 0; j < country.length; j++) {
@@ -669,27 +746,32 @@ function Calculation() {
           let fobcost = country[j].fob;
           let cifcost = country[j].cif;
           let custom_tax = country[j].ctax;
-          let vat = country[j].vat;
+          let vat = roundUp(country[j].vat, 4);
           let currency = country[j].currency;
           let symbol = country[j].symbol;
           let transportcostpallet = country[j].transportcostpallet;
 
           // all formulas here
           // -------------
+          let label_add_pc, temp_add_exw;
           //exw
           priceCtnExw = roundUp(pc / (1 - tdpMarginInt / 100), 3);
-          d_priceCtnExw = priceCtnExw + bycase;
-          pricePcExw = roundUp(priceCtnExw / pccase, 3);
+          labeling !== 0
+            ? (temp_add_exw = roundUp(priceCtnExw + labeling, 3))
+            : (temp_add_exw = priceCtnExw);
+          d_priceCtnExw = temp_add_exw + bycase;
+          pricePcExw = roundUp(temp_add_exw / pccase, 3);
           d_pricePcExw = pricePcExw + bypc;
+
           //total header
           totalCtn = roundUp(container * palletization * pccase, 2);
           d_totalCtn = totalCtn + unitpc;
-          totalAm = roundUp(container * palletization * priceCtnExw, 2);
+          totalAm = roundUp(container * palletization * temp_add_exw, 2);
           d_totalAm = totalAm + euro;
           // -------------
           // fob
           priceCtnFob = roundUp(
-            priceCtnExw + fobcost / (container * palletization),
+            temp_add_exw + fobcost / (container * palletization),
             3
           );
           d_priceCtnFob = priceCtnFob + bycase;
@@ -698,7 +780,7 @@ function Calculation() {
           // -------------
           //cfr
           priceCtnCfr = roundUp(
-            priceCtnExw + (cifcost + fobcost) / (container * palletization),
+            temp_add_exw + (cifcost + fobcost) / (container * palletization),
             3
           );
           d_priceCtnCfr = priceCtnCfr + bycase;
@@ -706,15 +788,16 @@ function Calculation() {
           d_pricePcCfr = pricePcCfr + bypc;
           // -------------
           //cif
+
           costIns = roundUp(totalAm * insurance, 2);
           priceCtnCif = roundUp(
-            priceCtnExw +
+            temp_add_exw +
               (cifcost + fobcost + costIns) / (container * palletization),
             3
           );
           d_priceCtnCif = priceCtnCif + bycase;
           costLogG = roundUp(
-            ((priceCtnCif - priceCtnExw) / priceCtnCif) * 100,
+            ((priceCtnCif - temp_add_exw) / priceCtnCif) * 100,
             2
           );
           d_costLogG = costLogG + percentage;
@@ -728,8 +811,9 @@ function Calculation() {
           SPinter = roundUp(PVinter / (1 - MidMarginInt / 100), 3);
           logCostPerc = roundUp(
             transportcostpallet / (pccase * palletization * PVinter),
-            2
+            4
           );
+          let d_logCostPerc = roundUp(logCostPerc * 100, 3);
           if (countryPicked === "South Korea") {
             d_PVinter = PVinter * 1000 + " " + symbol + bypc;
             d_PVinter_ctn =
@@ -749,7 +833,10 @@ function Calculation() {
           RtLogCost = roundUp(1 - 1 * (RetailMarginInt / 100), 3);
           WsLogCost = roundUp(RtLogCost - RtLogCost * (MidMarginInt / 100), 3);
           TransLogCost = WsLogCost - WsLogCost * logCostPerc;
-          LogRatio = roundUp(1 / TransLogCost, 3);
+          LogRatio = roundUp(1 / TransLogCost, 5);
+          console.log("Log cost (1 pallet): ", transportcostpallet);
+          console.log("Logistic cost % : ", d_logCostPerc);
+          console.log("Logistic Ratio: ", LogRatio);
           srp = roundUp(PVinter * LogRatio, 2);
           if (srp === Infinity) {
             display_srp = "--";
@@ -786,25 +873,25 @@ function Calculation() {
     { name: "PO quantity", output: d_totalCtn, type: "EXW" },
     { name: "FOB (€)", output: d_pricePcFob, type: "FOB" },
     { name: "FOB (€)", output: d_priceCtnFob, type: "FOB" },
-    { name: "----", output: "---------", type: "FOB" },
+    { name: "-", output: "-", type: "FOB" },
     { name: "CFR (€)", output: d_pricePcCfr, type: "CFR" },
     { name: "CFR (€)", output: d_priceCtnCfr, type: "CFR" },
-    { name: "----", output: "---------", type: "CFR" },
+    { name: "-", output: "-", type: "CFR" },
     { name: "CIF (€)", output: d_pricePcCif, type: "CIF" },
     { name: "CIF (€)", output: d_priceCtnCif, type: "CIF" },
     { name: "Logistic cost", output: d_costLogG, type: "CIF" },
     { name: "VAT", output: showVAT, type: "CIF" },
     { name: "Customs Tax", output: showCT, type: "CIF" },
-    { name: "----", output: "---------", type: "CIF" },
+    { name: "-", output: "-", type: "CIF" },
     { name: "Recommended SRP", output: display_srp, type: "DDP" },
     { name: "Recommended SRP", output: display_srp_ctn, type: "DDP" },
-    { name: "----", output: "---------", type: "DDP" },
+    { name: "-", output: "-", type: "DDP" },
     { name: "Agent sells", output: d_SPinter_pc, type: "DDP" },
     { name: "Agent sells", output: d_SPinter_ctn, type: "DDP" },
-    { name: "----", output: "---------", type: "DDP" },
+    { name: "-", output: "-", type: "DDP" },
     { name: "Agent buys", output: d_PVinter, type: "DDP" },
     { name: "Agent buys", output: d_PVinter_ctn, type: "DDP" },
-    { name: "----", output: "---------", type: "DDP" },
+    { name: "-", output: "-", type: "DDP" },
   ];
   // alert system
   alertMsg(
@@ -871,18 +958,23 @@ function addRow(tableID, text, data) {
   leftCell.style.color = "rgb(94, 94, 94)";
   leftCell.style.fontWeight = "normal";
   leftCell.style.paddingLeft = "15px";
+  leftCell.style.borderBottom = "solid 0.1rem rgb(200, 200, 200)";
   rightCell.appendChild(newData);
   rightCell.style.paddingLeft = "15px";
+  rightCell.style.borderBottom = "solid 0.1rem rgb(200, 200, 200)";
 }
 
 function OutputItemInfo(gen_data) {
-  document.querySelector("#output-header").innerHTML =
-    gen_data[0] +
-    " - " +
-    gen_data[3] +
-    " - " +
-    gen_data[2] +
-    " - " +
-    gen_data[1] +
-    "<br>";
+  var doc = document.querySelector("#output-header").children;
+  for (i = 0; i < doc.length; i++) {
+    doc[i].id === "output-country"
+      ? (doc[i].innerHTML = gen_data[0])
+      : doc[i].id === "output-code"
+      ? (doc[i].innerHTML = gen_data[2])
+      : doc[i].id === "output-cat"
+      ? (doc[i].innerHTML = gen_data[3])
+      : doc[i].id === "output-item"
+      ? (doc[i].innerHTML = gen_data[1])
+      : console.log("error");
+  }
 }
